@@ -70,3 +70,9 @@ TS 编译目标，默认 `es2019` [nodejs 16](https://node.green/#ES2019)
 
 启用 mock 模式，该模式不会检查是否存在重名目录，也不会创建任何目录和文件，只是模拟正常执行的流程。
 
+### --import-helpers|-H
+
+是否开启 [引用 helpers 模式](https://www.typescriptlang.org/tsconfig#importHelpers) ，默认开启。
+
+- 当开启了 `--import-helpers` ，将自动添加 `tslib`
+- 如果同时添加 `swc` ，也会添加 `@swc/helper`
