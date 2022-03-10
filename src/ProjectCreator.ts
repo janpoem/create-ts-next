@@ -91,9 +91,11 @@ export class ProjectCreator {
     terminal('Project ').cyan(name);
     terminal(' created. You can try the follow commands:\n')
 
-    terminal.bgBrightGreen(`cd ${name}`);
+    terminal.blue(`cd ${name}`);
     process.stdout.write('\n');
-    terminal.bgBrightGreen(`npm install`);
+    terminal.blue(`npm install`);
+    process.stdout.write('\n');
+    terminal.blue(`ts-node src/index.ts`);
     process.stdout.write('\n');
     process.stdout.write('\n');
     terminal('Have fun!\n')
