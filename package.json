@@ -1,6 +1,6 @@
 {
   "name": "create-ts-next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create next-generation typescript project",
   "main": "dist/index.js",
   "bin": {
@@ -21,9 +21,16 @@
   "keywords": [
     "cli",
     "create-project",
-    "typescript"
+    "typescript",
+    "swc",
+    "ts-node",
+    "mocha"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/janpoem/fastify-prisma-gql-serve-example.git"
+  },
+  "author": "Jiankai Zeng <janpoem@163.com>",
   "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.6",

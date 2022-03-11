@@ -32,9 +32,11 @@
 
 当通过参数添加了相关库以后，除了在创建项目时自动创建 `package.json` 文件，相关的 `tsconfig.json` `.swcrc` `.mocharc.json` `.gitignore` `.eslintrc.js` 也会根据参数自动添加。
 
-## 命令行参数
+## 命令行使用
 
 ```shell
+npm install create-ts-next -g
+create-ts-next -h
 # typescript, eslint, ts-node, swc 
 create-ts-next <name> --eslint -lib ts-node swc -M
 # typescript, ts-node, swc, mocha
