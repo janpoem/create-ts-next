@@ -12,7 +12,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "ts-node src/index.ts temp/test1 --lib all -M",
+    "dev": "ts-node src/index.ts temp/test1 --lib all",
+    "dev-mock": "ts-node src/index.ts temp/test1 --lib all --mock",
     "run-node": "node dist/index.js temp/test2 --lib swc mocha",
     "build": "tsc",
     "lint": "eslint src --ext .ts",

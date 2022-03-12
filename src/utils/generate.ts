@@ -3,6 +3,7 @@ import { join } from 'path';
 import * as ejs from 'ejs';
 import { ProjectCreatorParams, ProjectState } from '../ProjectCreator';
 import { generateDependencies } from './lib-deps';
+import { filterSWCModule, filterSWCTarget } from './ts-vars';
 
 export const generatePackageInfo = (opts: ProjectCreatorParams): Record<string, unknown> => {
   return {
@@ -67,14 +68,14 @@ export const generateSWCRC = ({ target, module, importHelpers }: ProjectCreatorP
         'dynamicImport': false
       },
       'baseUrl'        : './',
-      'target'         : target,
+      'target'         : filterSWCTarget(target),
       'transform'      : null,
       'loose'          : true,
       'externalHelpers': importHelpers,
       'keepClassNames' : true
     },
     'module': {
-      'type'      : module,
+      'type'      : filterSWCModule(module),
       'strict'    : false,
       'strictMode': true,
       'lazy'      : false,

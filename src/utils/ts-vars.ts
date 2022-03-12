@@ -43,14 +43,15 @@ export const TypeScriptTargetShortcuts = {
 
 type TypeScriptTargetShortcutsType = typeof TypeScriptTargetShortcuts;
 
-export const defaultTypeScriptTarget = 'es2019'
-export const defaultTypeScriptModule = 'commonjs'
+export const defaultTypeScriptTarget = 'es2019';
+export const defaultTypeScriptModule = 'commonjs';
 
 export const defaultTypeScriptTargetValue = TypeScriptTarget[defaultTypeScriptTarget];
 export const defaultTypeScriptModuleValue = TypeScriptModule[defaultTypeScriptModule];
 
 export const choicesTypeScriptModules = (): string[] => Object.keys(TypeScriptModule);
-export const choicesTypeScriptTargets = (): string[] => Object.keys(TypeScriptTarget).concat(Object.keys(TypeScriptTargetShortcuts));
+export const choicesTypeScriptTargets = (): string[] => Object.keys(TypeScriptTarget).concat(Object.keys(
+  TypeScriptTargetShortcuts));
 
 const inTypeScriptTargetEnum = (target: string): target is keyof typeof TypeScriptTarget => target in TypeScriptTarget;
 const inTypeScriptTargetShortcuts = (target: string): target is keyof TypeScriptTargetShortcutsType => target in TypeScriptTargetShortcuts;
@@ -76,4 +77,28 @@ export const filterTypeScriptModule = (module?: string | null): TypeScriptModule
     }
   }
   return defaultTypeScriptModuleValue;
+};
+
+type SWCModuleType = 'commonjs' | 'es6' | 'amd' | 'umd';
+
+export const filterSWCModule = (module: TypeScriptModule): SWCModuleType => {
+  switch (module) {
+    case TypeScriptModule.commonjs :
+      return 'commonjs';
+    case TypeScriptModule.amd :
+      return 'amd';
+    case TypeScriptModule.umd :
+      return 'commonjs';
+  }
+
+  return 'es6';
+};
+
+// "es3" | "es5" | "es2015" | "es2016" | "es2017" | "es2018" | "es2019" | "es2020" | "es2021" | "es2022"
+
+export const filterSWCTarget = (target: TypeScriptTarget): string => {
+  if (target === TypeScriptTarget.esnext) {
+    return 'es2022';
+  }
+  return target.toLowerCase();
 };
