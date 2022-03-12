@@ -28,7 +28,7 @@
     - `chai@^4.3.6`
     - `@types/chai@^4.3.0`
 
-现阶段 ts-node x swc ，构成了完美的 TypeScript 的本地开发环境，而且开发时完全可以用 ts-node x swc 直接解释执行，而无需编译。
+现阶段 `ts-node` x `swc` ，构成了完美的 TypeScript 的本地开发环境，而且开发时完全可以用 `ts-node` x `swc` 直接解释执行，而无需编译。
 
 当通过参数添加了相关库以后，除了在创建项目时自动创建 `package.json` 文件，相关的 `tsconfig.json` `.swcrc` `.mocharc.json` `.gitignore` `.eslintrc.js` 也会根据参数自动添加。
 
@@ -49,7 +49,9 @@ create-ts-next <name> --eslint false -lib all -M
 
 ### --target|-t
 
-TS 编译目标，默认 `es2019` [nodejs 16](https://node.green/#ES2019) 
+TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
+
+
 
 ### --eslint|-E
 
