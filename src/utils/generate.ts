@@ -1,16 +1,23 @@
 import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { join, basename } from 'path';
 import * as ejs from 'ejs';
 import { ProjectCreatorParams, ProjectState } from '../ProjectCreator';
 import { generateDependencies } from './lib-deps';
 import { filterSWCModule, filterSWCTarget } from './ts-vars';
 
+export const convertPackageName = (name: string): string => {
+  return basename(name);
+  // return name.replace(/^[\w]+:[\\\/]+/, '').replace(/[\\\/]+/gm, '-');
+}
+
 export const generatePackageInfo = (opts: ProjectCreatorParams): Record<string, unknown> => {
   return {
-    'name'       : opts.name,
+    'name'       : convertPackageName(opts.name),
     'version'    : '1.0.0',
     'description': '',
-    'scripts'    : {},
+    'scripts'    : {
+      'start': 'ts-node src/index.ts'
+    },
     'engines'    : {
       'node': '>= 16.0.0'
     },

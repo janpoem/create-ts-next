@@ -52,7 +52,6 @@ create-ts-next <name> --eslint false -lib all -M
 TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 
 
-
 ### --eslint|-E
 
 是否开启 eslint ，默认**开启**。

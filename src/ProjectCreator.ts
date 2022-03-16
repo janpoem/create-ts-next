@@ -1,4 +1,4 @@
-import { join, basename } from 'path';
+import { join, basename, isAbsolute } from 'path';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { terminal } from 'terminal-kit';
 import {
@@ -12,6 +12,7 @@ import {
   TypeScriptModule,
   TypeScriptTarget
 } from './utils';
+import { installDeps, PackageCmd, selectCmd } from './utils/package';
 
 export type ProjectCreatorParams = {
   name: string,
@@ -21,6 +22,7 @@ export type ProjectCreatorParams = {
   libs: DependenciesKey[],
   debug?: boolean,
   mock?: boolean,
+  install?: boolean,
 }
 
 export type ProjectItem = {
@@ -59,6 +61,8 @@ export class ProjectCreator {
 
   basePath: string;
 
+  cmd?: PackageCmd;
+
   constructor(public opts: ProjectCreatorParams) {
     this.basePath = process.cwd();
     this.state.mocha = opts.libs.indexOf('mocha') > -1;
@@ -68,7 +72,10 @@ export class ProjectCreator {
     Object.freeze(opts);
   }
 
-  startUp() {
+  async startUp(): Promise<this> {
+    if (!this.opts.mock && this.opts.install) {
+      this.cmd = await selectCmd();
+    }
     const { name, target, module, importHelpers, libs } = this.opts;
     terminal(`Create project `).cyan(name);
     terminal(', module: ').green(module);
@@ -84,21 +91,51 @@ export class ProjectCreator {
       process.stdout.write('\n');
     });
 
+    if (this.cmd != null) {
+      terminal('Packages manager used: ').cyan(this.cmd);
+      process.stdout.write('\n');
+    }
+
     process.stdout.write('\n');
     this.create(this.getStructure());
     process.stdout.write('\n');
 
     terminal('Project ').cyan(name);
-    terminal(' created. You can try the follow commands:\n')
+    terminal(' created. ');
 
+    let installed = false;
+
+    if (this.cmd != null) {
+      terminal('Install dependencies by ').cyan(this.cmd);
+      terminal('... \n');
+      try {
+        await installDeps(this.projectRoot, this.cmd);
+        installed = true;
+      } catch (e) {
+        //
+      }
+    }
+
+    process.stdout.write('\n');
+    terminal('You can try the follow commands:\n');
     terminal.blue(`cd ${name}`);
     process.stdout.write('\n');
-    terminal.blue(`npm install`);
-    process.stdout.write('\n');
+
+    if (this.cmd == null || !installed) {
+      terminal.blue(`npm install`);
+      terminal.gray(` or `);
+      terminal.blue(`yarn install`);
+      terminal.gray(` or `);
+      terminal.blue(`pnpm install`);
+      process.stdout.write('\n');
+    }
+
     terminal.blue(`ts-node src/index.ts`);
     process.stdout.write('\n');
     process.stdout.write('\n');
-    terminal('Have fun!\n')
+
+    terminal('Have fun!\n');
+    return this;
   }
 
   getStructure(): ProjectItem {
@@ -123,8 +160,12 @@ export class ProjectCreator {
     };
   }
 
+  get projectRoot(): string {
+    return isAbsolute(this.opts.name) ? this.opts.name : join(this.basePath, this.opts.name);
+  }
+
   create(item: ProjectItem, ctx?: PathContext): this {
-    ctx = ctx || { dir: '', path: join(this.basePath, this.opts.name) };
+    ctx = ctx || { dir: '', path: this.projectRoot };
     if (item.type === 'dir') {
       this.createDir(item, ctx);
     } else {

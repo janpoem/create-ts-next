@@ -52,23 +52,28 @@ async function cli() {
         alias  : 'M',
         type   : 'boolean',
         default: false,
+      },
+      install         : {
+        alias  : 'i',
+        type   : 'boolean',
+        default: true,
       }
     })
     .parseSync();
 
-  const { name, target, module, importHelpers, lib, eslint, debug, mock } = argv;
+  const { name, target, module, importHelpers, lib, eslint, debug, mock, install } = argv;
 
   if (name == null) {
     throw new Error('unspecified project name');
   }
   const _name = name + '';
 
-  (new ProjectCreator({
+  await (new ProjectCreator({
     name  : _name,
     target: filterTypeScriptTarget(target),
     module: filterTypeScriptModule(module),
     libs  : filterCliLibs(eslint, lib),
-    importHelpers, debug, mock
+    importHelpers, debug, mock, install
   })).startUp();
 }
 
