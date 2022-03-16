@@ -12,11 +12,11 @@
     "dist"
   ],
   "scripts": {
-    "dev:basic": "ts-node src/index.ts temp/test1 --lib all",
+    "dev:basic": "ts-node src/index.ts temp/test1 --lib all -i false",
     "dev:mock": "ts-node src/index.ts temp/test1 --lib all --mock",
     "dev:node": "node dist/index.js temp/test2 --lib swc mocha",
     "test": "mocha",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "build": "npm run lint && npm run test && tsc"
   },
   "keywords": [

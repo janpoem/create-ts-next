@@ -8,16 +8,32 @@ import { filterSWCModule, filterSWCTarget } from './ts-vars';
 export const convertPackageName = (name: string): string => {
   return basename(name);
   // return name.replace(/^[\w]+:[\\\/]+/, '').replace(/[\\\/]+/gm, '-');
-}
+};
 
-export const generatePackageInfo = (opts: ProjectCreatorParams): Record<string, unknown> => {
+export const generatePackageInfo = (
+  opts: ProjectCreatorParams,
+  { eslint, mocha }: ProjectState
+): Record<string, unknown> => {
+  const scripts: Record<string, string> = {
+    'dev:start': 'ts-node src/index.ts'
+  };
+  if (mocha) {
+    scripts['test'] = 'mocha';
+  }
+  if (eslint) {
+    scripts['lint'] = 'eslint src --ext .ts,.tsx,.js,.jsx';
+  }
+  scripts['build'] = [
+    eslint ? 'npm run lint' : null,
+    eslint ? 'npm run test' : null,
+    'tsc'
+  ].filter(Boolean).join(' && ');
+
   return {
     'name'       : convertPackageName(opts.name),
     'version'    : '1.0.0',
     'description': '',
-    'scripts'    : {
-      'start': 'ts-node src/index.ts'
-    },
+    'scripts'    : scripts,
     'engines'    : {
       'node': '>= 16.0.0'
     },

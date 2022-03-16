@@ -80,3 +80,16 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 - 当开启了 `--import-helpers` ，将自动添加 `tslib`
 - 如果同时添加 `swc` ，也会添加 `@swc/helper`
 
+### --install|-i
+
+默认为 `true`
+
+是否自动安装依赖包，自动检测本地 Packages manager 的环境，优先顺序为 `yarn > npm > pnpm`
+
+## 更新日志
+
+### 1.0.2
+
+- 增加 `--install|-i` 参数控制创建项目后，是否自动安装依赖包
+- 修正生成的 package.json 的项目名称，只使用创建项目的目录名（不包含父路径）
+- 添加项目的可执行 `scripts` ，增加 `dev:start` `build` `lint`（如果包含 eslint） `test` （如果包含 mocha）

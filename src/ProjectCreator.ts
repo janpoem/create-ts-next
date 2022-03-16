@@ -151,7 +151,7 @@ export class ProjectCreator {
           ]
         },
         { name: '.gitignore' },
-        { name: 'package.json', data: json(generatePackageInfo(this.opts)) },
+        { name: 'package.json', data: json(generatePackageInfo(this.opts, this.state)) },
         { name: 'tsconfig.json', data: json(generateTSConfig(this.opts, this.state)) },
         this.state.eslint ? { name: '.eslintrc.js' } : undefined,
         this.state.swc ? { name: '.swcrc', data: json(generateSWCRC(this.opts)) } : undefined,
