@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { ProjectCreator } from './ProjectCreator';
+import { TsNextProjectCreator } from './TsNextProjectCreator';
 import {
   choicesDependencies, choicesPackageManages,
   choicesTypeScriptModules, choicesTypeScriptTargets,
@@ -74,7 +74,7 @@ export async function createTsNext() {
   }
   const _name = name + '';
 
-  await (new ProjectCreator({
+  await (new TsNextProjectCreator({
     name          : _name,
     target        : filterTypeScriptTarget(target),
     module        : filterTypeScriptModule(module),

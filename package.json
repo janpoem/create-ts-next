@@ -12,14 +12,14 @@
     "dist"
   ],
   "scripts": {
-    "dev:basic": "rimraf temp/test1 && ts-node src/cli.ts temp/test1 -p pnpm",
+    "dev:basic": "rimraf temp/test1 && ts-node src/cli.test.ts temp/test1 -l all -p pnpm",
     "dev:mock": "ts-node src/cli.ts temp/test1 --lib all --mock",
-    "dev:node": "rimraf temp/test2 node dist/cli.js temp/test2 --lib swc mocha",
-    "dev:bin": "rimraf temp/test3 && node bin/create-ts-next temp/test3 -p pnpm",
+    "dev:bin": "rimraf temp/test3 && node bin/create-ts-next temp/test3 -p yarn",
     "dev:bin-help": "node bin/create-ts-next -h",
     "cleandir": "rimraf temp/test1 && rimraf temp/test2 && rimraf temp/test3",
-    "test": "mocha",
+    "test": "mocha src",
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+    "type-check": "tsc --noEmit",
     "build": "npm run lint && npm run test && rimraf dist && tsc --diagnostics"
   },
   "keywords": [

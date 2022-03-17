@@ -1,7 +1,8 @@
 import { existsSync, readFileSync } from 'fs';
 import { join, basename } from 'path';
 import * as ejs from 'ejs';
-import { ProjectCreatorParams, ProjectState } from '../ProjectCreator';
+import { ProjectCreatorBasicOptions } from '../ProjectCreator';
+import { CreateTsNextProjectOptions, CreateTsNextProjectState } from '../TsNextProjectCreator';
 import { generateDependencies } from './lib-deps';
 import { filterSWCModule, filterSWCTarget } from './ts-vars';
 
@@ -11,8 +12,8 @@ export const convertPackageName = (name: string): string => {
 };
 
 export const generatePackageInfo = (
-  opts: ProjectCreatorParams,
-  { eslint, mocha }: ProjectState
+  opts: CreateTsNextProjectOptions,
+  { eslint, mocha }: CreateTsNextProjectState
 ): Record<string, unknown> => {
   const scripts: Record<string, string> = {
     'dev:start': 'ts-node src/index.ts'
@@ -47,7 +48,7 @@ export const generateTSConfig = ({
   module,
   target,
   importHelpers,
-}: ProjectCreatorParams, { mocha, tsnode, swc }: ProjectState): Record<string, unknown> => {
+}: CreateTsNextProjectOptions, { mocha, tsnode, swc }: CreateTsNextProjectState): Record<string, unknown> => {
   const types = ['node'];
   if (mocha) {
     types.push('mocha', 'chai');
@@ -82,7 +83,7 @@ export const generateTSConfig = ({
   return config;
 };
 
-export const generateSWCRC = ({ target, module, importHelpers }: ProjectCreatorParams) => {
+export const generateSWCRC = ({ target, module, importHelpers }: CreateTsNextProjectOptions) => {
   return {
     'jsc'   : {
       'parser'         : {
@@ -119,7 +120,7 @@ export const generateMochaRC = (): Record<string, unknown> => {
   };
 };
 
-export const generateFileByTemplate = (relativePath: string, opts: ProjectCreatorParams): string => {
+export const generateFileByTemplate = <Options extends ProjectCreatorBasicOptions>(relativePath: string, opts: Options): string => {
   const tplPath = join(__dirname, `../../template/${relativePath}.ejs`);
   try {
     if (existsSync(tplPath)) {

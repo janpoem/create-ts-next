@@ -59,3 +59,4 @@ export const installDeps = (dir: string, cmd: PackageCmd): Promise<void> => {
     });
   });
 };
+

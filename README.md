@@ -96,7 +96,8 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 
 - 增加参数 `--package-manager|-p` 选择本地 node 包管理器，默认为 `npm`；
 - 调整匹配本地包管理器状态，从过去检查 3 个，改为只检查用户指定的包管理器；
-- 调整目录结构，`src/index.ts` （对应 `dist/index.js`）导出全部代码，增加 `src/cli.ts` 作为脚本启动环境（便于可复用代码）。
+- 调整目录结构，`src/index.ts` （对应 `dist/index.js`）导出全部代码，增加 `src/cli.ts` 作为脚本启动环境（便于可复用代码）；
+- 分离 `ProjectCreator` 和 `TsNextProjectCreator`。
 
 ### 1.0.3
 
