@@ -12,7 +12,7 @@ import {
   TypeScriptModule,
   TypeScriptTarget
 } from './utils';
-import { installDeps, PackageCmd, selectCmd } from './utils/package';
+import { installDeps, PackageCmd, selectCmd } from './utils';
 
 export type ProjectCreatorParams = {
   name: string,
@@ -23,6 +23,7 @@ export type ProjectCreatorParams = {
   debug?: boolean,
   mock?: boolean,
   install?: boolean,
+  packageManager: PackageCmd,
 }
 
 export type ProjectItem = {
@@ -74,7 +75,7 @@ export class ProjectCreator {
 
   async startUp(): Promise<this> {
     if (!this.opts.mock && this.opts.install) {
-      this.cmd = await selectCmd();
+      this.cmd = await selectCmd(this.opts.packageManager);
     }
     const { name, target, module, importHelpers, libs } = this.opts;
     terminal(`Create project `).cyan(name);

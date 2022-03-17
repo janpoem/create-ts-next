@@ -84,12 +84,22 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 
 默认为 `true`
 
-是否自动安装依赖包，自动检测本地 Packages manager 的环境，优先顺序为 `yarn > npm > pnpm`
+是否自动安装依赖包，自动检测本地 Packages manager 的环境，优先顺序为 `yarn > npm > pnpm`。
+
+### --package-manager|-p
+
+默认为 `npm`，可选 `npm` `yarn` `pnpm`，选择本地 node 包管理器。
 
 ## 更新日志
 
+### 1.0.4
+
+- 增加参数 `--package-manager|-p` 选择本地 node 包管理器，默认为 `npm`；
+- 调整匹配本地包管理器状态，从过去检查 3 个，改为只检查用户指定的包管理器；
+- 调整目录结构，`src/index.ts` （对应 `dist/index.js`）导出全部代码，增加 `src/cli.ts` 作为脚本启动环境（便于可复用代码）。
+
 ### 1.0.3
 
-- 增加 `--install|-i` 参数控制创建项目后，是否自动安装依赖包
-- 修正生成的 package.json 的项目名称，只使用创建项目的目录名（不包含父路径）
-- 添加项目的可执行 `scripts` ，增加 `dev:start` `build` `lint`（如果包含 eslint） `test` （如果包含 mocha）
+- 增加参数 `--install|-i` 控制创建项目后，是否自动安装依赖包；
+- 修正生成的 package.json 的项目名称，只使用创建项目的目录名（不包含父路径）；
+- 添加项目的可执行 `scripts` ，增加 `dev:start` `build` `lint`（如果包含 eslint） `test` （如果包含 mocha）。

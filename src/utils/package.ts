@@ -18,29 +18,31 @@ const detectCommand = (command: string): Promise<DetectResult> => {
 
 export type PackageCmd = 'npm' | 'yarn' | 'pnpm';
 
-const defaultOrders: PackageCmd[] = ['yarn', 'npm', 'pnpm'];
+const knownPackageManagers: PackageCmd[] = ['yarn', 'npm', 'pnpm'];
 
-type DetectCli = Record<PackageCmd, boolean>
+export const filterPackageManager = (pm?: string): PackageCmd => {
+  if (pm != null && (knownPackageManagers as string[]).indexOf(pm) > -1) {
+    return pm as PackageCmd;
+  }
+  return knownPackageManagers[0];
+};
 
-export const detectCmd = (): Promise<DetectCli> => {
-  return new Promise<DetectCli>((resolve) => {
-    Promise.all([
-      detectCommand('npm -v'),
-      detectCommand('yarn -v'),
-      detectCommand('pnpm -v'),
-    ]).then(([npm, yarn, pnpm]) => {
-      resolve({
-        npm : npm.status,
-        yarn: yarn.status,
-        pnpm: pnpm.status,
-      });
-    });
+export const choicesPackageManages = () => knownPackageManagers.slice();
+
+export const convertPackageManagerCommand = (cmd: PackageCmd): string => `${cmd}${platform() === 'win32' ? '.cmd' : ''}`;
+
+export const detectCmd = (cmd: PackageCmd): Promise<DetectResult> => {
+  return new Promise<DetectResult>((resolve) => {
+    detectCommand(`${convertPackageManagerCommand(cmd)} -v`).then(resolve);
   });
 };
 
-export const selectCmd = async (orders?: PackageCmd[]): Promise<PackageCmd | undefined> => {
-  const cli = await detectCmd();
-  return (orders == null || !Array.isArray(orders) || orders.length <= 0 ? defaultOrders : orders).find((cmd) => cli[cmd]);
+export const selectCmd = async (pm: PackageCmd): Promise<PackageCmd | undefined> => {
+  const cli = await detectCmd(pm);
+  if (cli.status) {
+    return pm;
+  }
+  return undefined;
 };
 
 export const installDeps = (dir: string, cmd: PackageCmd): Promise<void> => {
@@ -50,7 +52,7 @@ export const installDeps = (dir: string, cmd: PackageCmd): Promise<void> => {
     const ps = spawn(_cmd, ['install'], { stdio: 'inherit', cwd: dir });
     ps.on('close', (code) => {
       if (code !== 0) {
-        reject()
+        reject();
       } else {
         resolve();
       }
