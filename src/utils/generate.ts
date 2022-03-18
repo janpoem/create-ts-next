@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'fs';
-import { join, basename } from 'path';
+import { basename } from 'path';
 import * as ejs from 'ejs';
-import { ProjectCreatorBasicOptions } from '../ProjectCreator';
+import { ProjectCreatorBasicOptions, ProjectStructure } from '../ProjectCreator';
 import { CreateTsNextProjectOptions, CreateTsNextProjectState } from '../TsNextProjectCreator';
 import { generateDependencies } from './lib-deps';
 import { filterSWCModule, filterSWCTarget } from './ts-vars';
@@ -120,15 +120,21 @@ export const generateMochaRC = (): Record<string, unknown> => {
   };
 };
 
-export const generateFileByTemplate = <Options extends ProjectCreatorBasicOptions>(relativePath: string, opts: Options): string => {
-  const tplPath = join(__dirname, `../../template/${relativePath}.ejs`);
+export const generateFileByTemplate = <Options extends ProjectCreatorBasicOptions>(
+  item: ProjectStructure,
+  tplPath: string,
+  opts: Options
+): string => {
   try {
     if (existsSync(tplPath)) {
       const tpl = readFileSync(tplPath);
+      if (item.ignoreTpl) {
+        return tpl.toString('utf8');
+      }
       return ejs.render(tpl.toString('utf8'), opts);
     }
   } catch (err) {
-    console.log(`generateFileByTemplate ${relativePath} error: `, err);
+    console.log(`generateFileByTemplate ${item.name} error: `, err);
   }
   return '';
 };

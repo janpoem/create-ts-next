@@ -92,6 +92,10 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 
 ## 更新日志
 
+### 1.0.5
+
+- 增加 `ProjectCreator.getTemplatePath` 方法
+
 ### 1.0.4
 
 - 增加参数 `--package-manager|-p` 选择本地 node 包管理器，默认为 `npm`；
