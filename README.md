@@ -36,6 +36,9 @@
 
 ```shell
 npm install create-ts-next -g
+# or
+npx create-ts-next <name>
+
 create-ts-next -h
 # typescript, eslint, ts-node, swc 
 create-ts-next <name> --eslint -lib ts-node swc -M
