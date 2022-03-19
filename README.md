@@ -220,6 +220,10 @@ const TypeScriptDeps: DependenciesDef = {
 
 ## 更新日志
 
+### 1.0.6
+
+- 增加 `ProjectCreator.generateFileContent` 方法，使继承类可使用自定义的模板处理器。
+
 ### 1.0.5
 
 - 增加 `ProjectCreator.getTemplatePath` 方法

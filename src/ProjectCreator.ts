@@ -15,7 +15,7 @@ export interface ProjectCreatorBasicOptions {
 export type ProjectStructure = {
   name: string,
   type?: 'dir' | 'file',
-  data?: string,
+  data?: string | null,
   ignoreTpl?: boolean,
   children?: (ProjectStructure | undefined)[]
 }
@@ -99,16 +99,19 @@ export abstract class ProjectCreator<Options extends ProjectCreatorBasicOptions,
     if (type !== 'file') return this;
     const relative = dir ? join(dir, name) : name;
     if (!this.options.mock) {
-      const content = typeof data === 'string' ? data : generateFileByTemplate(
-        item,
-        this.getTemplatePath(relative),
-        this.options
-      );
-      writeFileSync(join(path, relative), content);
+      writeFileSync(join(path, relative), typeof data === 'string' ? data : this.generateFileContent(item, relative));
     }
     terminal('write file: ').yellow(relative);
     process.stdout.write('\n');
     return this;
+  }
+
+  generateFileContent(item: ProjectStructure, relative: string): string {
+    return generateFileByTemplate(
+      item,
+      this.getTemplatePath(relative),
+      this.options
+    );
   }
 
   getTemplatePath(relative: string): string {
