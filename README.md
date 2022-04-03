@@ -1,5 +1,8 @@
 # create-ts-next
 
+[![version](https://img.shields.io/npm/v/create-ts-next?style=for-the-badge)](https://www.npmjs.com/package/create-ts-next)
+![dw](https://img.shields.io/npm/dw/create-ts-next?style=for-the-badge)
+
 ## 基本介绍
 
 这是一个 node.js 的项目创建脚手架，用于创建次世代的 TypeScript 项目模板。
