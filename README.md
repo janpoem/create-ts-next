@@ -223,6 +223,11 @@ const TypeScriptDeps: DependenciesDef = {
 
 ## 更新日志
 
+### 1.0.7
+
+- 更新依赖库版本
+- 使用 `nodemon` 替换 `chokidar` 库
+
 ### 1.0.6
 
 - 增加 `ProjectCreator.generateFileContent` 方法，使继承类可使用自定义的模板处理器。

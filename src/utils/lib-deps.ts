@@ -1,4 +1,3 @@
-
 type DependenciesItem = Record<string, string>
 
 export type DependenciesDef = {
@@ -11,8 +10,8 @@ const Dependencies: Record<string, DependenciesDef> = {
   typescript: {
     devDependencies: {
       '@types/node': '^16',
-      'typescript' : '^4.6.2',
-    }
+      'typescript' : '^4.9.3',
+    },
   },
   // 1
   eslint: {
@@ -20,43 +19,44 @@ const Dependencies: Record<string, DependenciesDef> = {
       'eslint'                          : '^8',
       '@typescript-eslint/parser'       : '^5',
       '@typescript-eslint/eslint-plugin': '^5',
-    }
+    },
   },
   /////////////////////////////////////////////////////////////////
   'ts-node': {
     devDependencies: {
-      'ts-node': '^10.4.0',
-    }
+      'ts-node': '^10.9.1',
+    },
   },
   swc      : {
     devDependencies: {
-      'chokidar'           : '^3.5.3',
-      '@swc/cli'           : '^0.1.55',
-      '@swc/core'          : '^1.2.151',
-      'regenerator-runtime': '^0.13.9',
-    }
+      'nodemon'            : '^2',
+      '@types/nodemon'     : '^1.19.2',
+      '@swc/cli'           : '^0.1.57',
+      '@swc/core'          : '^1.3.20',
+      'regenerator-runtime': '^0.13.11',
+    },
   },
   mocha    : {
     devDependencies: {
-      'mocha'       : '^9.2.1',
-      '@types/mocha': '^9.1.0',
-      'chai'        : '^4.3.6',
-      '@types/chai' : '^4.3.0',
-    }
-  }
+      'mocha'       : '^10',
+      '@types/mocha': '^10',
+      'chai'        : '^4',
+      '@types/chai' : '^4',
+    },
+  },
 } as const;
 
 const DependenciesHelpers: Record<string, DependenciesDef> = {
   typescript: {
     dependencies: {
-      'tslib': '^2.3.1'
+      'tslib': '^2.4.1',
     },
   },
   swc       : {
     dependencies: {
-      '@swc/helpers': '^0.3.6',
+      '@swc/helpers': '^0.4.14',
     },
-  }
+  },
 };
 
 export type DependenciesKey = keyof typeof Dependencies;
@@ -95,7 +95,7 @@ const objectMerge = (o1?: DependenciesItem, o2?: DependenciesItem): Dependencies
 
 export const dependenciesMerge = (
   { dependencies: d1, devDependencies: dd1 }: DependenciesDef = {},
-  { dependencies: d2, devDependencies: dd2 }: DependenciesDef = {}
+  { dependencies: d2, devDependencies: dd2 }: DependenciesDef = {},
 ): DependenciesDef | undefined => {
   const dependencies = objectMerge(d1, d2);
   const devDependencies = objectMerge(dd1, dd2);
@@ -130,7 +130,7 @@ export type GenerateDependenciesOptions = {
 
 export const generateDependencies = ({
   libs,
-  importHelpers
+  importHelpers,
 }: GenerateDependenciesOptions): DependenciesDef | undefined => {
   let count = 0;
   let deps: DependenciesDef | undefined = undefined;
