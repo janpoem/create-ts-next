@@ -70,7 +70,7 @@ describe('dependencies', function () {
     it('swc', () => {
       const deps = getDependencies('swc', false);
       expect(deps).to.have.property('devDependencies');
-      expect(deps).to.have.nested.property('devDependencies.chokidar');
+      // expect(deps).to.have.nested.property('devDependencies.chokidar');
       expect(deps).to.have.nested.property('devDependencies.@swc/cli');
       expect(deps).to.have.nested.property('devDependencies.@swc/core');
       expect(deps).to.have.nested.property('devDependencies.regenerator-runtime');
@@ -79,7 +79,7 @@ describe('dependencies', function () {
     it('swc with helpers', () => {
       const deps = getDependencies('swc', true);
       expect(deps).to.have.property('devDependencies');
-      expect(deps).to.have.nested.property('devDependencies.chokidar');
+      // expect(deps).to.have.nested.property('devDependencies.chokidar');
       expect(deps).to.have.nested.property('devDependencies.@swc/cli');
       expect(deps).to.have.nested.property('devDependencies.@swc/core');
       expect(deps).to.have.nested.property('devDependencies.regenerator-runtime');

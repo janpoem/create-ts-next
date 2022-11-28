@@ -28,7 +28,7 @@ describe('generateDependencies', function () {
     expect(deps).to.have.nested.property('devDependencies.@types/node');
 
     // swc
-    expect(deps).to.have.nested.property('devDependencies.chokidar');
+    // expect(deps).to.have.nested.property('devDependencies.chokidar');
     expect(deps).to.have.nested.property('devDependencies.@swc/cli');
     expect(deps).to.have.nested.property('devDependencies.@swc/core');
     expect(deps).to.have.nested.property('devDependencies.regenerator-runtime');
