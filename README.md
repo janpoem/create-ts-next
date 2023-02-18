@@ -39,15 +39,20 @@
 ## 命令行使用
 
 ```shell
-npm install create-ts-next -g
-# or
 npx create-ts-next <name>
 
-create-ts-next -h
+# 使用帮助和查看版本号
+npx create-ts-next --help
+npx create-ts-next --version
+
+# 更新新版本
+# 如果之前通过 npx 指令使用过
+npx create-ts-next@latest --help
+
 # typescript, eslint, ts-node, swc 
-create-ts-next <name> --eslint -lib ts-node swc -M
+npx create-ts-next <name> -l all -p pnpm -i
 # typescript, ts-node, swc, mocha
-create-ts-next <name> --eslint false -lib all -M
+npx create-ts-next <name> --eslint false -l all -M
 ```
 
 ### --module|-m
