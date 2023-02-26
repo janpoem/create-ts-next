@@ -71,7 +71,7 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 
 ### --lib|-l
 
-附加库，可选值 `ts-node|swc|mocha|all` ，可多项。
+附加库，可选值 `ts-node|swc|mocha|prettier|all` ，可多项。
 
 如果添加相关库，则会在新建的项目中添加相关的文件：
 
@@ -79,6 +79,7 @@ TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
 - **swc** - 添加 `.swcrc` 文件。
     - 如果同时包含 `ts-node` 则在 `tsconfig.json` 文件，增加 `"ts-node": { "swc": true }` 字段。
 - **mocha** - 添加 `.mocharc.json` 文件
+- **prettier** - 添加 `.prettierrc` 文件
 
 ### --mock|-M
 
@@ -227,6 +228,12 @@ const TypeScriptDeps: DependenciesDef = {
 的枚举与 alias，如果有需要，请按需引用。
 
 ## 更新日志
+
+### 1.0.8 
+
+- 增加 `prettier`
+- 更新依赖库版本
+- 转用 gitee workflow
 
 ### 1.0.7
 
