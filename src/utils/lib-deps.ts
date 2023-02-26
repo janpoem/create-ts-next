@@ -10,7 +10,7 @@ const Dependencies: Record<string, DependenciesDef> = {
   typescript: {
     devDependencies: {
       '@types/node': '^16',
-      'typescript' : '^4.9.3',
+      'typescript' : '^4.9.5',
     },
   },
   // 1
@@ -24,15 +24,15 @@ const Dependencies: Record<string, DependenciesDef> = {
   /////////////////////////////////////////////////////////////////
   'ts-node': {
     devDependencies: {
-      'ts-node': '^10.9.1',
+      'ts-node': '^10',
     },
   },
   swc      : {
     devDependencies: {
       'nodemon'            : '^2',
       '@types/nodemon'     : '^1.19.2',
-      '@swc/cli'           : '^0.1.57',
-      '@swc/core'          : '^1.3.20',
+      '@swc/cli'           : '^0.1.62',
+      '@swc/core'          : '^1.3.36',
       'regenerator-runtime': '^0.13.11',
     },
   },
@@ -55,7 +55,7 @@ const Dependencies: Record<string, DependenciesDef> = {
 const DependenciesHelpers: Record<string, DependenciesDef> = {
   typescript: {
     dependencies: {
-      'tslib': '^2.4.1',
+      'tslib': '^2',
     },
   },
   swc       : {
