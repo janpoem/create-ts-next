@@ -1,6 +1,6 @@
 {
   "name": "create-ts-next",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Create next-generation typescript project",
   "main": "dist/index.js",
   "bin": {
@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "dev:basic": "rimraf temp/test1 && ts-node src/cli.test.ts temp/test1 -l all -p pnpm",
-    "dev:mock": "ts-node src/cli.ts temp/test1 --lib all --mock",
+    "dev:mock": "ts-node src/cli.ts temp/test2 --lib all -h",
     "dev:bin": "rimraf temp/test3 && node bin/create-ts-next temp/test3 -p yarn",
     "dev:bin-help": "node bin/create-ts-next -h",
     "cleandir": "rimraf temp/test1 && rimraf temp/test2 && rimraf temp/test3",
