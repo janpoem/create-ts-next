@@ -44,6 +44,12 @@ const Dependencies: Record<string, DependenciesDef> = {
       '@types/chai' : '^4',
     },
   },
+  prettier : {
+    devDependencies: {
+      'prettier'       : '^2',
+      '@types/prettier': '^2',
+    },
+  },
 } as const;
 
 const DependenciesHelpers: Record<string, DependenciesDef> = {

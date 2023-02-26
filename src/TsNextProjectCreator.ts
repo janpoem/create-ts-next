@@ -3,7 +3,7 @@ import {
   ProjectCreator,
   ProjectCreatorBasicOptions,
   ProjectCreatorBasicState,
-  ProjectStructure
+  ProjectStructure,
 } from './ProjectCreator';
 import {
   DependenciesKey, generateMochaRC,
@@ -11,7 +11,7 @@ import {
   generateTSConfig,
   installDeps,
   TypeScriptModule,
-  TypeScriptTarget
+  TypeScriptTarget,
 } from './utils';
 
 export interface CreateTsNextProjectOptions extends ProjectCreatorBasicOptions {
@@ -25,7 +25,8 @@ export interface CreateTsNextProjectState extends ProjectCreatorBasicState {
   mocha: boolean,
   tsnode: boolean,
   swc: boolean,
-  eslint: boolean
+  eslint: boolean,
+  prettier: boolean,
 }
 
 const json = (data: Record<string, unknown>): string => JSON.stringify(data, null, 2);
@@ -34,10 +35,11 @@ export class TsNextProjectCreator extends ProjectCreator<CreateTsNextProjectOpti
 
   constructor(opts: CreateTsNextProjectOptions) {
     super(opts, {
-      mocha : opts.libs.indexOf('mocha') > -1,
-      tsnode: opts.libs.indexOf('ts-node') > -1,
-      swc   : opts.libs.indexOf('swc') > -1,
-      eslint: opts.libs.indexOf('eslint') > -1
+      mocha   : opts.libs.indexOf('mocha') > -1,
+      tsnode  : opts.libs.indexOf('ts-node') > -1,
+      swc     : opts.libs.indexOf('swc') > -1,
+      eslint  : opts.libs.indexOf('eslint') > -1,
+      prettier: opts.libs.indexOf('prettier') > -1,
     });
   }
 
@@ -115,15 +117,16 @@ export class TsNextProjectCreator extends ProjectCreator<CreateTsNextProjectOpti
           type    : 'dir',
           children: [
             { name: 'index.ts' },
-          ]
+          ],
         },
         { name: '.gitignore' },
         { name: 'package.json', data: json(generatePackageInfo(this.options, this.state)) },
         { name: 'tsconfig.json', data: json(generateTSConfig(this.options, this.state)) },
         this.state.eslint ? { name: '.eslintrc.js' } : undefined,
+        this.state.prettier ? { name: '.prettierrc' } : undefined,
         this.state.swc ? { name: '.swcrc', data: json(generateSWCRC(this.options)) } : undefined,
         this.state.mocha ? { name: '.mocharc.json', data: json(generateMochaRC()) } : undefined,
-      ]
+      ],
     };
   }
 }
