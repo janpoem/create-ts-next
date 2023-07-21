@@ -228,7 +228,35 @@ const TypeScriptDeps: DependenciesDef = {
 [ts-vars.ts](https://gitee.com/janpoem/create-ts-next/blob/master/src/utils/ts-vars.ts) 提供 TypeScript Module 和 Target
 的枚举与 alias，如果有需要，请按需引用。
 
+#### 更好的使用 nodemon with ts-node
+
+`package.json` 添加 script
+
+```json
+{
+   "scripts": {
+      "dev:nodemon": "nodemon"
+   }
+}
+```
+
+项目根目录添加 `nodemon.json`
+
+```json
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node ./src/index.ts"
+}
+```
+
 ## 更新日志
+
+### 1.0.9
+
+- 更新开发所需库版本 `ejs^3`, `mocha^10`
+- 更新依赖库版本，`typescript^5`, 及其他
 
 ### 1.0.8 
 

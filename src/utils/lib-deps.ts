@@ -9,16 +9,16 @@ const Dependencies: Record<string, DependenciesDef> = {
   // 0
   typescript: {
     devDependencies: {
-      '@types/node': '^16',
-      'typescript' : '^4.9.5',
+      '@types/node': '^18',
+      'typescript' : '^5',
     },
   },
   // 1
   eslint: {
     devDependencies: {
       'eslint'                          : '^8',
-      '@typescript-eslint/parser'       : '^5',
-      '@typescript-eslint/eslint-plugin': '^5',
+      '@typescript-eslint/parser'       : '^6',
+      '@typescript-eslint/eslint-plugin': '^6',
     },
   },
   /////////////////////////////////////////////////////////////////
@@ -29,10 +29,10 @@ const Dependencies: Record<string, DependenciesDef> = {
   },
   swc      : {
     devDependencies: {
-      'nodemon'            : '^2',
+      'nodemon'            : '^3',
       '@types/nodemon'     : '^1.19.2',
       '@swc/cli'           : '^0.1.62',
-      '@swc/core'          : '^1.3.36',
+      '@swc/core'          : '^1.3.69',
       'regenerator-runtime': '^0.13.11',
     },
   },
@@ -60,7 +60,7 @@ const DependenciesHelpers: Record<string, DependenciesDef> = {
   },
   swc       : {
     dependencies: {
-      '@swc/helpers': '^0.4.14',
+      '@swc/helpers': '^0.5.1',
     },
   },
 };
