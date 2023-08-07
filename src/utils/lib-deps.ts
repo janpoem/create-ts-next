@@ -9,45 +9,44 @@ const Dependencies: Record<string, DependenciesDef> = {
   // 0
   typescript: {
     devDependencies: {
-      '@types/node': '^18',
-      'typescript' : '^5',
+      '@types/node': '^18.11.9',
+      'typescript' : '^5.1.6',
     },
   },
   // 1
   eslint: {
     devDependencies: {
-      'eslint'                          : '^8',
-      '@typescript-eslint/parser'       : '^6',
-      '@typescript-eslint/eslint-plugin': '^6',
+      'eslint'                          : '^8.46.0',
+      '@typescript-eslint/parser'       : '^6.2.1',
+      '@typescript-eslint/eslint-plugin': '^6.2.1',
     },
   },
   /////////////////////////////////////////////////////////////////
   'ts-node': {
     devDependencies: {
-      'ts-node': '^10',
+      'ts-node': '^10.9.1',
     },
   },
   swc      : {
     devDependencies: {
-      'nodemon'            : '^3',
+      'nodemon'            : '^3.0.1',
       '@types/nodemon'     : '^1.19.2',
       '@swc/cli'           : '^0.1.62',
-      '@swc/core'          : '^1.3.69',
+      '@swc/core'          : '^1.3.74',
       'regenerator-runtime': '^0.13.11',
     },
   },
   mocha    : {
     devDependencies: {
-      'mocha'       : '^10',
-      '@types/mocha': '^10',
-      'chai'        : '^4',
-      '@types/chai' : '^4',
+      'mocha'       : '^10.2.0',
+      '@types/mocha': '^10.0.1',
+      'chai'        : '^4.3.7',
+      '@types/chai' : '^4.3.5',
     },
   },
   prettier : {
     devDependencies: {
-      'prettier'       : '^2',
-      '@types/prettier': '^2',
+      'prettier'       : '^3.0.1'
     },
   },
 } as const;
@@ -55,7 +54,7 @@ const Dependencies: Record<string, DependenciesDef> = {
 const DependenciesHelpers: Record<string, DependenciesDef> = {
   typescript: {
     dependencies: {
-      'tslib': '^2',
+      'tslib': '^2.6.1',
     },
   },
   swc       : {

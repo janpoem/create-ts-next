@@ -1,7 +1,5 @@
 # create-ts-next
 
-[![Fork me on Gitee](https://gitee.com/janpoem/create-ts-next/widgets/widget_6.svg)](https://gitee.com/janpoem/create-ts-next)
-
 [![version](https://img.shields.io/npm/v/create-ts-next?style=for-the-badge)](https://www.npmjs.com/package/create-ts-next) [![dt](https://img.shields.io/npm/dt/create-ts-next?style=for-the-badge)](https://www.npmjs.com/package/create-ts-next)
 
 ## 基本介绍
