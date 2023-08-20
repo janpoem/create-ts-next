@@ -1,10 +1,10 @@
-### MacOS
+export const gitignore = ()  => `### MacOS
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
+# Icon must end with two \\r
 Icon
 
 # Thumbnails
@@ -259,3 +259,4 @@ common/autoinstallers/*/.npmrc
 
 .swc
 .private
+`

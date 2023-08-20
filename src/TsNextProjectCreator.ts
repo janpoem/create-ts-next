@@ -2,60 +2,65 @@ import { terminal } from 'terminal-kit';
 import {
   ProjectCreator,
   ProjectCreatorBasicOptions,
-  ProjectCreatorBasicState,
   ProjectStructure,
 } from './ProjectCreator';
 import {
-  DependenciesKey, generateMochaRC,
-  generatePackageInfo, generateSWCRC,
-  generateTSConfig,
+  eslintrc,
+  srcIndex,
+  mocharc,
+  packageJson,
+  prettierrc,
+  rollupConfig,
+  swcrc,
+  tsconfig,
+  gitignore,
+  srcHelloSpec,
+  srcHello,
+} from './templates';
+import { nodemon } from './templates/nodemon';
+import {
+  DependenciesKey,
   installDeps,
   TypeScriptModule,
   TypeScriptTarget,
 } from './utils';
 
 export interface CreateTsNextProjectOptions extends ProjectCreatorBasicOptions {
-  target: TypeScriptTarget,
-  module: TypeScriptModule,
-  importHelpers: boolean,
-  libs: DependenciesKey[],
+  target: TypeScriptTarget;
+  module: TypeScriptModule;
+  libs: DependenciesKey[];
+  isPackageModule: boolean;
 }
 
-export interface CreateTsNextProjectState extends ProjectCreatorBasicState {
-  mocha: boolean,
-  tsnode: boolean,
-  swc: boolean,
-  eslint: boolean,
-  prettier: boolean,
-}
+export type CreateTsNextProjectState = Record<
+  DependenciesKey,
+  boolean | undefined
+>;
 
-const json = (data: Record<string, unknown>): string => JSON.stringify(data, null, 2);
-
-export class TsNextProjectCreator extends ProjectCreator<CreateTsNextProjectOptions, CreateTsNextProjectState> {
-
+export class TsNextProjectCreator extends ProjectCreator<
+  CreateTsNextProjectOptions,
+  CreateTsNextProjectState
+> {
   constructor(opts: CreateTsNextProjectOptions) {
-    super(opts, {
-      mocha   : opts.libs.indexOf('mocha') > -1,
-      tsnode  : opts.libs.indexOf('ts-node') > -1,
-      swc     : opts.libs.indexOf('swc') > -1,
-      eslint  : opts.libs.indexOf('eslint') > -1,
-      prettier: opts.libs.indexOf('prettier') > -1,
-    });
+    super(
+      opts,
+      opts.libs.reduce((map, lib) => {
+        map[lib] = true;
+        return map;
+      }, {} as CreateTsNextProjectState),
+    );
   }
 
   async startUp(): Promise<this> {
     await this.detectPackageCmd();
-    const { name, target, module, importHelpers, libs } = this.options;
+    const { name, target, module, libs } = this.options;
     terminal(`Create project `).cyan(name);
     terminal(', module: ').green(module);
     terminal(', target: ').green(target);
-    if (importHelpers) {
-      terminal(', import-helpers: ').green(importHelpers + '');
-    }
     process.stdout.write('\n');
 
     terminal('With libs: \n');
-    libs.forEach((lib) => {
+    libs.forEach(lib => {
       terminal(' - ').cyan(lib);
       process.stdout.write('\n');
     });
@@ -109,23 +114,44 @@ export class TsNextProjectCreator extends ProjectCreator<CreateTsNextProjectOpti
 
   getStructure(): ProjectStructure {
     return {
-      name    : '',
-      type    : 'dir',
+      name: '',
+      type: 'dir',
       children: [
         {
-          name    : 'src',
-          type    : 'dir',
+          name: 'src',
+          type: 'dir',
           children: [
-            { name: 'index.ts' },
+            { name: 'index.ts', data: srcIndex(this.options) },
+            { name: 'hello.ts', data: srcHello() },
+            this.options.libs.includes('mocha')
+              ? { name: 'index.spec.ts', data: srcHelloSpec() }
+              : undefined,
           ],
         },
-        { name: '.gitignore' },
-        { name: 'package.json', data: json(generatePackageInfo(this.options, this.state)) },
-        { name: 'tsconfig.json', data: json(generateTSConfig(this.options, this.state)) },
-        this.state.eslint ? { name: '.eslintrc.js' } : undefined,
-        this.state.prettier ? { name: '.prettierrc' } : undefined,
-        this.state.swc ? { name: '.swcrc', data: json(generateSWCRC(this.options)) } : undefined,
-        this.state.mocha ? { name: '.mocharc.json', data: json(generateMochaRC()) } : undefined,
+        { name: '.gitignore', data: gitignore() },
+        {
+          name: 'package.json',
+          data: packageJson(this.options),
+        },
+        {
+          name: 'tsconfig.json',
+          data: tsconfig(this.options),
+        },
+        {
+          name: '.eslintrc.' + (this.options.isPackageModule ? 'cjs' : 'js'),
+          data: eslintrc(),
+        },
+        { name: '.prettierrc', data: prettierrc() },
+        { name: '.swcrc', data: swcrc(this.options) },
+        this.options.libs.includes('nodemon')
+          ? { name: 'nodemon.json', data: nodemon() }
+          : undefined,
+        this.options.libs.includes('mocha')
+          ? { name: '.mocharc.json', data: mocharc(this.options) }
+          : undefined,
+        this.options.libs.includes('rollup')
+          ? { name: 'rollup.config.js', data: rollupConfig() }
+          : undefined,
       ],
     };
   }

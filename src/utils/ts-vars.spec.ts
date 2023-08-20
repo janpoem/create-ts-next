@@ -1,3 +1,4 @@
+import 'mocha';
 import { expect } from 'chai';
 import {
   defaultTypeScriptModuleValue,
@@ -7,6 +8,7 @@ import {
   TypeScriptModule,
   TypeScriptTarget
 } from './ts-vars';
+
 
 describe('ts-vars', function () {
   it('filterTypeScriptTarget', () => {
