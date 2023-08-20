@@ -4,36 +4,32 @@
 
 ## 基本介绍
 
-这是一个 node.js 的项目创建脚手架，用于创建次世代的 TypeScript 项目模板。
+这是一个用于在 node 环境，迅速建立 Typescript 项目的脚手架。
 
-本项目主要针对 node.js 的后端项目环境或独立库开发，不针对前端创建项目，因为 vite webpack 已经有很多比较好的脚手架了）。
+主要以 ts-node + swc + mocha（可选） 的方式直接启动 Typescript 的开发。
 
-该项目将自动创建基础的 TypeScript 项目环境，并可通过参数增加部分相关库：
+默认 typescript 依赖如下：
 
-1. typescript
-    - `typescript@^4.6.2`
-    - `@types/node@^16` 该项目只保持对 node.js LTS 版本对齐，不考虑兼容更早的 node.js 版本。
-2. eslint，可通过命令行参数 `--eslint|-e false` 控制，默认开启。推荐阅读：[https://typescript-eslint.io/](https://typescript-eslint.io/)
-    - `eslint@^8`
-    - `@typescript-eslint/parser@^5`
-    - `@typescript-eslint/eslint-plugin@^5`
-3. [ts-node](https://typestrong.org/ts-node/docs/) ，可通过命令行参数 `--lib ts-node` 添加。
-    - `ts-node@^10.4.0`
-4. [swc](https://swc.rs/) ，可通过命令行参数 `--lib swc` 添加。
-    - `chokidar^@3.5.3` ，要以 watch 模式执行 swc 编译，需要增加这个库
-    - `@swc/cli@^0.1.55`
-    - `@swc/core@^1.2.151`
-    - `regenerator-runtime@^0.13.9`
-5. mocha ，可通过命令行参数 `--lib mocha` 添加，默认整合 mocha 和 chai。
-    - `mocha@^9.2.1`
-    - `@types/mocha@^9.1.1`
-    - `chai@^4.3.6`
-    - `@types/chai@^4.3.0`
+- `@types/node`
+- `typescript`
+- `tslib`
+- `eslint`
+- `@typescript-eslint/eslint-plugin`
+- `@typescript-eslint/parser`
+- `prettier`
+- `ts-node`
+- `@swc/cli`
+- `@swc/core`
+- `@swc/helpers`
 
-现阶段 `ts-node` x `swc` ，构成了完美的 TypeScript 的本地开发环境，而且开发时完全可以用 `ts-node` x `swc` 直接解释执行，而无需编译。
+目前可选库调整为 `nodemon` `mocha` `rollup` ，根据 `--lib|-l` 参数，创建的项目的内容会有少许不同（如初始配置文件）。
 
-当通过参数添加了相关库以后，除了在创建项目时自动创建 `package.json` 文件，相关的 `tsconfig.json` `.swcrc` `.mocharc.json` `.gitignore` `.eslintrc.js`
-也会根据参数自动添加。
+相较 1.0.x 的版本，1.1 主要做了如下调整：
+
+1. `eslint`、`prettier` 和 `swc` 不再作为选项，而是默认安装。
+2. 可选库调整为更加实用的，并自动添加相关的配置和 scripts。
+3. 根据 `--module|-m` 参数识别是否为 esm 项目，根据 esm 生成的代码有所不同，大人时代变了，要上 es module 这趟车了（rollup 也默认生成 `cjs` 和 `es` 两种格式）。
+4. 调整模板的实现，`ejs` 仍然保留（依赖关系）。
 
 ## 命令行使用
 
@@ -48,48 +44,57 @@ npx create-ts-next --version
 # 如果之前通过 npx 指令使用过
 npx create-ts-next@latest --help
 
-# typescript, eslint, ts-node, swc 
+# nodemon / mocha / rollup 全选
+# 包管理器选择 pnpm
+# module: commonjs
 npx create-ts-next <name> -l all -p pnpm -i
-# typescript, ts-node, swc, mocha
-npx create-ts-next <name> --eslint false -l all -M
+# rollup / mocha
+# 包管理器选择 npm 默认
+# module: es ，即 es2022
+npx create-ts-next <name> -m es -l rollup,mocha
 ```
+
+默认 `es` 指代 node 当前的 18 LTS 版本，未来会根据 node 版本调整。
 
 ### --module|-m
 
 指定 module 模式，默认 `commonjs` 。
 
+可选 `commonjs|es|es6|es2015|es2020|esnext` 等。
+
 ### --target|-t
 
-TS 编译目标，默认 `ES2019` [nodejs@16.0.0](https://node.green/#ES2019)
-
-### --eslint|-E
-
-是否开启 eslint ，默认**开启**。
-
-如果开启，则自动添加相关依赖库，并在新建项目中添加基础 `.eslintrc.js` 文件。
+TS 编译目标，默认 `ES2022` [nodejs@16.0.0](https://node.green/#ES2019)
 
 ### --lib|-l
 
-附加库，可选值 `ts-node|swc|mocha|prettier|all` ，可多项。
+附加库，可选值 `nodemon|mocha|rollup` ，可多项。
 
 如果添加相关库，则会在新建的项目中添加相关的文件：
 
-- **ts-node** - 无文件创建，`tsconfig.json` 文件，会增加 `"ts-node": {}` 字段。
-- **swc** - 添加 `.swcrc` 文件。
-    - 如果同时包含 `ts-node` 则在 `tsconfig.json` 文件，增加 `"ts-node": { "swc": true }` 字段。
-- **mocha** - 添加 `.mocharc.json` 文件
-- **prettier** - 添加 `.prettierrc` 文件
+nodemon
+
+- `nodemon`
+- `@types/nodemon`
+
+mocha
+
+- `mocha`
+- `@types/mocha`
+- `chai`
+- `@types/chai`
+
+rollup
+
+- `rollup`
+- `@rollup/plugin-commonjs`
+- `@rollup/plugin-node-resolve`
+- `rollup-plugin-swc3`
+- `rollup-plugin-dts`
 
 ### --mock|-M
 
 启用 mock 模式，该模式不会检查是否存在重名目录，也不会创建任何目录和文件，只是模拟正常执行的流程。
-
-### --import-helpers|-H
-
-是否开启 [引用 helpers 模式](https://www.typescriptlang.org/tsconfig#importHelpers) ，默认开启。
-
-- 当开启了 `--import-helpers` ，将自动添加 `tslib`
-- 如果同时添加 `swc` ，也会添加 `@swc/helper`
 
 ### --package-manager|-p
 
@@ -167,89 +172,11 @@ type ProjectStructure = {
 }
 ```
 
-### 其他辅助工具
-
-#### DependenciesDef
-
-描述了一个库所依赖的包及其版本号。其结构声明如下：
-
-```ts
-type DependenciesItem = Record<string, string>
-
-export type DependenciesDef = {
-  dependencies?: DependenciesItem,
-  devDependencies?: DependenciesItem,
-}
-
-// 举个🌰：声明 TypeScript 所依赖的包
-const TypeScriptDeps: DependenciesDef = {
-  dependencies   : {
-    'tslib': '^2.3.1'
-  },
-  devDependencies: {
-    '@types/node': '^16',
-    'typescript' : '^4.6.2',
-  }
-}
-```
-
-这里库是一个抽象名词，比如我们需要在项目中添加 TypeScript ：
-
-1. 那么我们往往不仅仅是需要 `typescript` 这个依赖包，
-2. 同时还需要 `@types/node` 这个辅助库，以及 `tslib` 这个运行时依赖包。
-3. 其次根据不同的项目环境，比如 webpack ，我们在描述 TypeScript 的时候，可能还会附加上 `ts-loader` / `babel-loader` / `swc-loader` 等等，基于此，可能还有更多的依赖包，诸如 `@babel/preset-env` / `@babel/preset-typescript` 等等。
-
-
-
-#### dependenciesMerge
-
-合并两个依赖声明，仅对 `dependencies` 和 `devDependencies` 字段进行合并。
-
-`dependenciesMerge(deps1: DependenciesDef = {}, deps2: DependenciesDef = {}): DependenciesDef | undefined`
-
-#### installDeps
-
-根据 package.json 安装依赖包。
-
-`installDeps(dir: string, cmd: PackageCmd): Promise<void>`
-
-- `dir`: 执行安装的目录，最好为绝对路径。
-- `cmd`: 执行的包管理器命令。
-
-根据执行指令的返回代码（child process exit code）来判定执行状态。
-
-- 0 为正常完成
-- 非0 表示执行指令返回任何异常
-
-#### TypeScript 相关
-
-[ts-vars.ts](https://gitee.com/janpoem/create-ts-next/blob/master/src/utils/ts-vars.ts) 提供 TypeScript Module 和 Target
-的枚举与 alias，如果有需要，请按需引用。
-
-#### 更好的使用 nodemon with ts-node
-
-`package.json` 添加 script
-
-```json
-{
-   "scripts": {
-      "dev:nodemon": "nodemon"
-   }
-}
-```
-
-项目根目录添加 `nodemon.json`
-
-```json
-{
-  "watch": ["src"],
-  "ext": "ts,json",
-  "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node ./src/index.ts"
-}
-```
-
 ## 更新日志
+
+### 1.2.0
+
+参考如上
 
 ### 1.0.9
 
