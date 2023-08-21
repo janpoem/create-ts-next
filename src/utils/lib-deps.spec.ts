@@ -1,66 +1,41 @@
+import 'mocha';
 import { expect } from 'chai';
-import { dependenciesMerge, filterCliLibs, getDependencies } from './lib-deps';
+import { dependenciesMerge, filterLibs, getDependencies } from './lib-deps';
 
 describe('dependencies', function () {
-
-  describe('filterCliLibs', function () {
-    it('contain eslint', () => {
-      const libs = filterCliLibs(true);
-      expect(libs).to.contain('typescript');
-      expect(libs).to.contain('eslint');
+  describe('filterLibs', () => {
+    it('should contain typescript', () => {
+      expect(filterLibs()).to.contain('typescript');
+      expect(filterLibs('all')).to.contain('typescript');
     });
 
-    it('not contain eslint', () => {
-      const libs = filterCliLibs(false);
-      expect(libs).to.contain('typescript');
-      expect(libs).to.not.contain('eslint');
+    it('should contain libs', () => {
+      expect(filterLibs('mocha')).to.contain('mocha');
+      expect(filterLibs('all')).to.contain('mocha');
+      expect(filterLibs(['nodemon', 'mocha'])).to.contain('nodemon');
+      expect(filterLibs(['all'])).to.contain('rollup');
+      expect(filterLibs(['rollup'])).to.contain('rollup');
     });
-
-    it('contain swc', () => {
-      const libs = filterCliLibs(false, ['swc']);
-      expect(libs).to.contain('swc');
-      expect(libs).to.not.contain('eslint');
-    });
-
-    it('contain ts-node', () => {
-      const libs = filterCliLibs(true, ['ts-node']);
-      expect(libs).to.contain('ts-node');
-    });
-
-    it('all', () => {
-      const libs = filterCliLibs(true, ['ts-node', 'swc']);
-      expect(libs).to.contain('typescript');
-      expect(libs).to.contain('eslint');
-      expect(libs).to.contain('ts-node');
-      expect(libs).to.contain('swc');
-    });
-
-    it('add undefined lib', () => {
-      const libs = filterCliLibs(true, ['test']);
-      expect(libs).to.contain('typescript');
-      expect(libs).to.not.contain('test');
-    });
-  });
+  })
 
   describe('getDependencies', function () {
     it('typescript', () => {
-      const deps = getDependencies('typescript', false);
+      const deps = getDependencies('typescript');
       expect(deps).to.have.property('devDependencies');
       expect(deps).to.have.nested.property('devDependencies.typescript');
       expect(deps).to.have.nested.property('devDependencies.@types/node');
     });
 
     it('typescript with helpers', () => {
-      const deps = getDependencies('typescript', true);
+      const deps = getDependencies('typescript');
       expect(deps).to.have.property('devDependencies');
       expect(deps).to.have.nested.property('devDependencies.typescript');
       expect(deps).to.have.nested.property('devDependencies.@types/node');
-      expect(deps).to.have.property('dependencies');
-      expect(deps).to.have.nested.property('dependencies.tslib');
+      expect(deps).to.have.nested.property('devDependencies.tslib');
     });
 
     it('eslint', () => {
-      const deps = getDependencies('eslint', false);
+      const deps = getDependencies('typescript');
       expect(deps).to.have.property('devDependencies');
       expect(deps).to.have.nested.property('devDependencies.eslint');
       expect(deps).to.have.nested.property('devDependencies.@typescript-eslint/eslint-plugin');
@@ -68,33 +43,44 @@ describe('dependencies', function () {
     });
 
     it('swc', () => {
-      const deps = getDependencies('swc', false);
-      expect(deps).to.have.property('devDependencies');
-      // expect(deps).to.have.nested.property('devDependencies.chokidar');
-      expect(deps).to.have.nested.property('devDependencies.@swc/cli');
-      expect(deps).to.have.nested.property('devDependencies.@swc/core');
-      expect(deps).to.have.nested.property('devDependencies.regenerator-runtime');
-    });
-
-    it('swc with helpers', () => {
-      const deps = getDependencies('swc', true);
-      expect(deps).to.have.property('devDependencies');
-      // expect(deps).to.have.nested.property('devDependencies.chokidar');
-      expect(deps).to.have.nested.property('devDependencies.@swc/cli');
-      expect(deps).to.have.nested.property('devDependencies.@swc/core');
-      expect(deps).to.have.nested.property('devDependencies.regenerator-runtime');
-      expect(deps).to.have.property('dependencies');
-      expect(deps).to.have.nested.property('dependencies.@swc/helpers');
-    });
-
-    it('ts-node', () => {
-      const deps = getDependencies('ts-node', true);
+      const deps = getDependencies('typescript');
       expect(deps).to.have.property('devDependencies');
       expect(deps).to.have.nested.property('devDependencies.ts-node');
+      expect(deps).to.have.nested.property('devDependencies.@swc/cli');
+      expect(deps).to.have.nested.property('devDependencies.@swc/core');
+      expect(deps).to.have.nested.property('devDependencies.@swc/helpers');
     });
 
+    it('nodemon', () => {
+      const deps = getDependencies('nodemon');
+      expect(deps).to.have.property('devDependencies');
+      expect(deps).to.have.nested.property('devDependencies.nodemon');
+      expect(deps).to.have.nested.property('devDependencies.@types/nodemon');
+    });
+
+    it('mocha', () => {
+      const deps = getDependencies('mocha');
+      expect(deps).to.have.property('devDependencies');
+      expect(deps).to.have.nested.property('devDependencies.mocha');
+      expect(deps).to.have.nested.property('devDependencies.@types/mocha');
+      expect(deps).to.have.nested.property('devDependencies.chai');
+      expect(deps).to.have.nested.property('devDependencies.@types/chai');
+    });
+
+    it('mocha', () => {
+      const deps = getDependencies('rollup');
+      expect(deps).to.have.property('devDependencies');
+      expect(deps).to.have.nested.property('devDependencies.rollup');
+      expect(deps).to.have.nested.property('devDependencies.rollup-plugin-swc3');
+      expect(deps).to.have.nested.property('devDependencies.rollup-plugin-dts');
+      expect(deps).to.have.nested.property('devDependencies.@rollup/plugin-commonjs');
+      expect(deps).to.have.nested.property('devDependencies.@rollup/plugin-node-resolve');
+    });
+
+
     it('undefined', () => {
-      const deps = getDependencies('abc', true);
+      // @ts-ignore abc key
+      const deps = getDependencies('abc');
       expect(deps).to.eql(undefined);
     });
   });

@@ -1,14 +1,14 @@
 export enum TypeScriptModule {
   commonjs = 'CommonJS',
-  amd = 'AMD',
-  system = 'System',
-  umd = 'UMD',
+  es = 'ES2022',
   es6 = 'ES6',
   es2015 = 'ES2015',
   es2020 = 'ES2020',
   esnext = 'ESNext',
+  amd = 'AMD',
+  umd = 'UMD',
+  system = 'System',
   none = 'None',
-  es2022 = 'es2022',
   node12 = 'node12',
   nodenext = 'nodenext'
 }
@@ -24,6 +24,8 @@ export enum TypeScriptTarget {
   es2019 = 'ES2019',
   es2020 = 'ES2020',
   es2021 = 'ES2021',
+  es2022 = 'ES2022',
+  es2023 = 'ES2023',
   esnext = 'ESNext'
 }
 
@@ -38,12 +40,14 @@ export const TypeScriptTargetShortcuts = {
   '2019': TypeScriptTarget.es2019,
   '2020': TypeScriptTarget.es2020,
   '2021': TypeScriptTarget.es2021,
+  '2022': TypeScriptTarget.es2022,
+  '2023': TypeScriptTarget.es2023,
   'next': TypeScriptTarget.esnext,
 } as const;
 
 type TypeScriptTargetShortcutsType = typeof TypeScriptTargetShortcuts;
 
-export const defaultTypeScriptTarget = 'es2019';
+export const defaultTypeScriptTarget = 'es2022';
 export const defaultTypeScriptModule = 'commonjs';
 
 export const defaultTypeScriptTargetValue = TypeScriptTarget[defaultTypeScriptTarget];
@@ -102,3 +106,7 @@ export const filterSWCTarget = (target: TypeScriptTarget): string => {
   }
   return target.toLowerCase();
 };
+
+export function isEsModule(value: string): boolean {
+  return value.startsWith('es') || value.includes('next');
+}

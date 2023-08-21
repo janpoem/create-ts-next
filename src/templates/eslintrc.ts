@@ -1,6 +1,7 @@
-const OFF = 'off';
+
+export const eslintrc = (): string => `const OFF = 'off';
 const ERROR = 'error';
-// const WARN = 'warn';
+const WARN = 'warn';
 
 module.exports = {
   root: true,
@@ -10,9 +11,8 @@ module.exports = {
   env: {
     node: true,
     mocha: true,
-    jest: true,
   },
-  ignorePatterns: ['node_modules', 'dist'],
+  ignorePatterns: ['node_modules', 'dist', '*.config.js'],
   rules: {
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
@@ -25,7 +25,7 @@ module.exports = {
     ],
     'no-shadow': OFF,
     '@typescript-eslint/no-shadow': ERROR,
-    '@typescript-eslint/no-empty-interface': OFF, // 允许空 interface 因为需要对类进行扩展描述
-    '@typescript-eslint/no-explicit-any': ERROR, // 禁止使用 any
+    '@typescript-eslint/no-empty-interface': OFF,
+    '@typescript-eslint/no-explicit-any': WARN,
   },
-};
+};`
