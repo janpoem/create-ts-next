@@ -10,6 +10,7 @@
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "pretty": true,
+    "rootDir": ".",
     "outDir": "dist",
     "typeRoots": ["node_modules/@types", "types"],
     "types": ["node", "mocha", "chai"]

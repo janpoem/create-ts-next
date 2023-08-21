@@ -19,7 +19,8 @@
     "test": "mocha src",
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "type-check": "tsc --noEmit",
-    "build": "npm run lint && npm run test && rimraf dist && tsc --diagnostics"
+    "rollup": "rollup -c --bundleConfigAsCjs",
+    "build": "pnpm lint && pnpm test && pnpm rollup"
   },
   "keywords": [
     "cli",
@@ -59,6 +60,7 @@
     "rollup-plugin-dts": "^6.0.0",
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-node-resolve": "^15.2.0",
+    "@rollup/plugin-json": "^6.0.0",
     "@types/chai": "^4.3.5",
     "@types/ejs": "^3.1.2",
     "@types/mocha": "^10.0.1",
