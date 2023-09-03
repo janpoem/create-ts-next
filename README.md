@@ -64,7 +64,7 @@ npx create-ts-next <name> -m es -l rollup,mocha
 
 ### --target|-t
 
-TS 编译目标，默认 `ES2022` [nodejs@16.0.0](https://node.green/#ES2019)
+TS 编译目标，默认 `ES2022` [nodejs ES2022](https://node.green/#ES2022)
 
 ### --lib|-l
 
