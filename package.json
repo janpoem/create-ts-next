@@ -32,7 +32,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/janpoem/create-ts-next"
+    "url": "https://github.com/janpoem/create-ts-next"
   },
   "author": "Jiankai Zeng <janpoem@163.com>",
   "license": "MIT",
