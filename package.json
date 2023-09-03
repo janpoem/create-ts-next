@@ -1,6 +1,6 @@
 {
   "name": "create-ts-next",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "Create next-generation typescript project",
   "main": "dist/index.js",
   "bin": {
