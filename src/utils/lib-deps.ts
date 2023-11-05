@@ -8,17 +8,17 @@ export type DependenciesDef = {
 const Dependencies = {
   typescript: {
     devDependencies: {
-      '@types/node': '^18.11.9',
-      typescript: '^5.1.6',
+      '@types/node': '^18.18.8',
+      typescript: '^5.2.2',
       tslib: '^2.6.2',
-      eslint: '^8.47.0',
-      '@typescript-eslint/eslint-plugin': '^6.4.0',
-      '@typescript-eslint/parser': '^6.4.0',
-      prettier: '^3.0.2',
+      eslint: '^8.53.0',
+      '@typescript-eslint/eslint-plugin': '^6.9.1',
+      '@typescript-eslint/parser': '^6.9.1',
+      prettier: '^3.0.3',
       'ts-node': '^10.9.1',
       '@swc/cli': '^0.1.62',
-      '@swc/core': '^1.3.78',
-      '@swc/helpers': '^0.5.1',
+      '@swc/core': '^1.3.96',
+      '@swc/helpers': '^0.5.3',
     },
   },
   nodemon: {
@@ -30,18 +30,18 @@ const Dependencies = {
   mocha: {
     devDependencies: {
       mocha: '^10.2.0',
-      '@types/mocha': '^10.0.1',
-      chai: '^4.3.7',
-      '@types/chai': '^4.3.5',
+      '@types/mocha': '^10.0.3',
+      chai: '^4.3.10',
+      '@types/chai': '^4.3.9',
     },
   },
   rollup: {
     devDependencies: {
-      rollup: '^3.28.0',
-      '@rollup/plugin-commonjs': '^25.0.4',
+      rollup: '^3.29.4',
+      '@rollup/plugin-commonjs': '^25.0.7',
       '@rollup/plugin-node-resolve': '^15.2.0',
-      'rollup-plugin-swc3': '^0.9.1',
-      'rollup-plugin-dts': '^6.0.0',
+      'rollup-plugin-swc3': '^0.10.3',
+      'rollup-plugin-dts': '^6.1.0',
     },
   },
 };
